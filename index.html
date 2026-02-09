@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>System Notice</title>
+
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #000;
+    color: #00ff9c;
+    font-family: "Courier New", monospace;
+    overflow: hidden;
+  }
+
+  .screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+  }
+
+  .glitch {
+    font-size: 2.5rem;
+    position: relative;
+    animation: flicker 1.5s infinite;
+  }
+
+  @keyframes flicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+  }
+
+  .sub {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #00ccff;
+  }
+
+  .timer {
+    margin-top: 30px;
+    font-size: 1rem;
+    color: #ff4444;
+  }
+
+  .noise {
+    position: fixed;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.03),
+      rgba(255,255,255,0.03) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+    pointer-events: none;
+    animation: move 0.2s infinite;
+  }
+
+  @keyframes move {
+    from { transform: translateY(0); }
+    to { transform: translateY(2px); }
+  }
+</style>
+</head>
+
+<body>
+<div class="screen" id="screen">
+  <div class="glitch">⚠ SYSTEM BREACHED ⚠</div>
+  <div class="sub">Unauthorized access detected</div>
+  <div class="sub">Message: <strong>እኔ ሱራፌል ነኝ</strong></div>
+  <div class="timer" id="timer">Auto close in 05:00</div>
+</div>
+
+<div class="noise"></div>
+
+<script>
+  let seconds = 300; // 5 minutes
+
+  const timerEl = document.getElementById("timer");
+  const screenEl = document.getElementById("screen");
+
+  const countdown = setInterval(() => {
+    seconds--;
+    const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+    const s = String(seconds % 60).padStart(2, "0");
+    timerEl.textContent = `Auto close in ${m}:${s}`;
+
+    if (seconds <= 0) {
+      clearInterval(countdown);
+      // ገፁን እንዲጠፋ ያደርጋል
+      document.body.innerHTML = "";
+      document.body.style.background = "#000";
+    }
+  }, 1000);
+</script>
+</body>
+</html>
+  
